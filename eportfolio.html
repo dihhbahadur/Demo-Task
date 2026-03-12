@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CET138 ePortfolio | Full Stack Development</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" />
+  <style>
+    :root {
+      --bg: #0e0e0e;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --accent: #f0a500;
+      --accent2: #e05a00;
+      --text: #e8e2d6;
+      --muted: #7a746a;
+      --code-bg: #1a1a1a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Lora', Georgia, serif;
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    /* ── NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+      background: rgba(14,14,14,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav .brand {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      text-decoration: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.8rem;
+    }
+
+    nav ul li a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav ul li a:hover { color: var(--accent); }
+
+    /* ── HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 2rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 span { color: var(--accent); }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta span { color: var(--text); }
+
+    .scroll-hint {
+      margin-top: 4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .scroll-hint::after {
+      content: '';
+      display: inline-block;
+      width: 40px;
+      height: 1px;
+      background: var(--muted);
+    }
+
+    /* ── SECTIONS */
+    section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      line-height: 1.15;
+    }
+
+    p { margin-bottom: 1rem; }
+
+    strong { color: var(--accent); font-style: normal; }
+
+    em { color: var(--text); font-style: italic; }
+
+    /* ── CODE BLOCK  */
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      padding: 1.4rem 1.6rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+
+    .code-block pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: #c9c3b5;
+      white-space: pre;
+    }
+
+    .code-block .kw  { color: #f0a500; }
+    .code-block .tg  { color: #e05a00; }
+    .code-block .at  { color: #88b4e7; }
+    .code-block .st  { color: #a8d48a; }
+    .code-block .cm  { color: #555; font-style: italic; }
+
+    /* ── DEMO BOXES */
+    .demo-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .demo-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem 2rem;
+      margin: 1.5rem 0;
+      color: #111;
+    }
+
+    /* ── STACK DIAGRAM  */
+    .stack-diagram {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin: 2rem 0;
+    }
+
+    .stack-layer {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .stack-layer-bar {
+      flex: 1;
+      padding: 0.85rem 1.2rem;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stack-layer-bar::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.08;
+      background: #fff;
+    }
+
+    .stack-layer-bar.front  { background: #1a3a5c; color: #88b4e7; }
+    .stack-layer-bar.middle { background: #3a2a10; color: var(--accent); }
+    .stack-layer-bar.back   { background: #1a3018; color: #8ac48a; }
+    .stack-layer-bar.db     { background: #2a1a3a; color: #c48ae8; }
+
+    .stack-layer-desc {
+      width: 200px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* ── CSS DEMO */
+    .css-examples {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    @media(max-width: 600px) { .css-examples { grid-template-columns: 1fr; } }
+
+    .css-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.2rem;
+    }
+
+    .css-card-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .box-model-demo {
+      margin: 0.5rem;
+      background: #88b4e755;
+      border: 4px dashed #88b4e7;
+      padding: 0.8rem;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: #88b4e7;
+      outline: 6px solid #a8d48a44;
+      outline-offset: 4px;
+    }
+
+    .flex-demo {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .flex-item {
+      flex: 1;
+      min-width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 600;
+      border-radius: 4px;
+    }
+
+    .flex-item:nth-child(1) { background: #f0a50033; color: var(--accent); flex: 2; }
+    .flex-item:nth-child(2) { background: #88b4e733; color: #88b4e7; }
+    .flex-item:nth-child(3) { background: #a8d48a33; color: #a8d48a; flex: 1.5; }
+
+    .transition-demo-btn {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.5rem 1.2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+      display: block;
+      margin: 0.5rem auto;
+    }
+
+    .transition-demo-btn:hover {
+      background: var(--accent);
+      color: #0e0e0e;
+      transform: translateY(-2px);
+    }
+
+    .grid-demo {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 4px;
+    }
+
+    .grid-cell {
+      background: #f0a50022;
+      border: 1px solid var(--accent);
+      border-opacity: 0.3;
+      height: 32px;
+      border-radius: 3px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+    }
+
+    .grid-cell.span2 { grid-column: span 2; }
+
+    /* ── BOOTSTRAP SECTION  */
+    .bs-section-inner {
+      background: #fff;
+      border-radius: 8px;
+      padding: 1.5rem;
+      color: #333;
+      margin: 1.5rem 0;
+    }
+
+    /* ── JS SECTION */
+    .js-demo-area {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .js-demo-area h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    /* Counter */
+    .counter-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    #counter-display {
+      font-family: 'Syne', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      min-width: 80px;
+      text-align: center;
+      transition: transform 0.1s;
+    }
+
+    .counter-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .counter-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* To-do */
+    .todo-input-row {
+      display: flex;
+      gap: 0.6rem;
+      margin-bottom: 0.8rem;
+    }
+
+    #todo-input {
+      flex: 1;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.5rem 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text);
+      outline: none;
+    }
+
+    #todo-input:focus { border-color: var(--accent); }
+
+    #todo-add-btn {
+      background: var(--accent);
+      border: none;
+      color: #0e0e0e;
+      padding: 0.5rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #todo-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    #todo-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--code-bg);
+      padding: 0.5rem 0.8rem;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      animation: fadeIn 0.2s ease;
+    }
+
+    #todo-list li.done span { text-decoration: line-through; opacity: 0.4; }
+
+    #todo-list li input[type=checkbox] { accent-color: var(--accent); cursor: pointer; }
+
+    #todo-list li .del-btn {
+      margin-left: auto;
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: color 0.15s;
+    }
+
+    #todo-list li .del-btn:hover { color: #e05a00; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── FOOTER  */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ── QUOTE PULL */
+    blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 0.8rem 1.4rem;
+      margin: 1.5rem 0;
+      color: var(--muted);
+      font-style: italic;
+      background: var(--surface);
+      border-radius: 0 6px 6px 0;
+    }
+
+    /* ── COLOUR BADGE */
+    .tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 3px;
+      background: var(--accent);
+      color: #0e0e0e;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── QUIZ / COLOUR PICKER DEMO */
+    .colour-picker-demo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    #colour-output {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    /* Scroll animations */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive nav */
+    @media(max-width: 640px) {
+      nav ul { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="brand" href="#top">CET138 · ePortfolio</a>
+  <ul>
+    <li><a href="#fullstack">Full Stack</a></li>
+    <li><a href="#html">HTML</a></li>
+    <li><a href="#css">CSS</a></li>
+    <li><a href="#bootstrap">Bootstrap</a></li>
+    <li><a href="#javascript">JavaScript</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<div id="top" class="hero">
+  <p class="hero-label">// CET138 — Full Stack Development — Assignment 1</p>
+  <h1>My Developer<br /><span>ePortfolio</span></h1>
+  <p>
+    A collection of what I have learned so far on the module — from understanding what full stack actually means,
+    through to writing HTML, styling it with CSS, using Bootstrap, and making things interactive with JavaScript.
+  </p>
+  <div class="hero-meta">
+    Module: <span>CET138 Full Stack Development</span>
+    &nbsp;|&nbsp;
+    Assignment: <span>1 of 1 (30%)</span>
+  </div>
+  <p class="scroll-hint">scroll to explore</p>
+</div>
+
+<!--SECTION 1 — FULL STACK DEVELOPMENT-->
+<section id="fullstack" class="fade-up">
+  <p class="section-num">// 01</p>
+  <h2>What is Full Stack Development?</h2>
+
+  <p>
+    When I first heard the phrase "full stack developer" I assumed it just meant someone who was good at everything — which felt a bit vague.
+    After studying it properly I have a much better understanding of what it actually refers to.
+  </p>
+
+  <p>
+    A <strong>full stack developer</strong> is someone who can work across every layer of a web application — from the part the user sees
+    (the front end) all the way through to the server, the application logic, and the database (the back end). The word "stack" refers to
+    the set of technologies stacked on top of each other to make the application function.
+  </p>
+
+  <blockquote>
+    The "stack" is not just a metaphor — it literally describes how different layers of a system sit on top of each other,
+    each relying on the layer beneath it.
+  </blockquote>
+
+  <p>
+    A common way to visualise this is through a diagram. The diagram below shows the four main layers and the kinds of technologies that typically
+    sit in each one:
+  </p>
+
+  <!-- Stack Diagram -->
+  <div class="stack-diagram">
+    <div class="stack-layer">
+      <div class="stack-layer-bar front">FRONT END &nbsp;·&nbsp; HTML · CSS · JavaScript · Bootstrap</div>
+      <p class="stack-layer-desc">What the user sees and interacts with in their browser.</p>
+    </div>
+    <div class="stack-layer">
+      <div class="stack-layer-bar middle">SERVER LOGIC &nbsp;·&nbsp; Node.js · Python · PHP · Ruby</div>
+      <p class="stack-layer-desc">Handles requests from the browser and applies business logic.</p>
+    </div>
+    <div class="stack-layer">
+      <div class="stack-layer-bar back">APIs &amp; SERVICES &nbsp;·&nbsp; REST · GraphQL · Authentication</div>
+      <p class="stack-layer-desc">Connects front end to data and third-party services.</p>
+    </div>
+    <div class="stack-layer">
+      <div class="stack-layer-bar db">DATABASE &nbsp;·&nbsp; MySQL · MongoDB · PostgreSQL</div>
+      <p class="stack-layer-desc">Stores and retrieves the application's data persistently.</p>
+    </div>
+  </div>
+
+  <p>
+    Understanding all of these layers is what makes someone a full stack developer. In practice, many developers tend to specialise more heavily
+    on one side — some are naturally more comfortable in the browser (front-end focused), others prefer working with databases and server logic
+    (back-end focused). Being able to move between both, even if not an expert at every layer, is the defining trait.
+  </p>
+
+  <p>
+    On this module so far we have focused primarily on the <strong>front-end layer</strong> — HTML, CSS, Bootstrap, and JavaScript — which are the core building
+    blocks of anything a user actually sees. These sit at the top of the stack and are the entry point for most developers learning web development.
+  </p>
+
+  <p>
+    One thing I found useful when thinking about this was the idea that the front end and back end are always communicating.
+    When you type a URL into a browser, the front end sends a request, the server processes it, possibly queries a database,
+    and then sends a response back that the browser renders. All of that happens in fractions of a second.
+  </p>
+</section>
+
+<!--SECTION 2 — HTML-->
+<section id="html" class="fade-up">
+  <p class="section-num">// 02</p>
+  <h2>HTML</h2>
+
+  <p>
+    HTML — HyperText Markup Language — is the backbone of every web page. It is not a programming language (it cannot perform logic or calculations),
+    but a <strong>markup language</strong> that describes the structure and content of a document using <em>elements</em> wrapped in tags.
+  </p>
+
+  <p>
+    The browser reads the HTML file and builds a <strong>Document Object Model (DOM)</strong> — a tree-like representation of the page that CSS and JavaScript
+    can then interact with. Without HTML there is nothing for the other layers to attach to.
+  </p>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; margin: 1.5rem 0 0.5rem; color: var(--text);">Basic Page Structure</h3>
+  <p>
+    Every HTML document follows the same basic skeleton. I have found it helpful to memorise this early on because all pages,
+    however complex, are built on top of it:
+  </p>
+
+  <div class="code-block"><pre><span class="cm">&lt;!-- Every HTML page starts with a DOCTYPE declaration --&gt;</span>
+<span class="tg">&lt;!DOCTYPE html&gt;</span>
+<span class="tg">&lt;html</span> <span class="at">lang=</span><span class="st">"en"</span><span class="tg">&gt;</span>
+
+  <span class="tg">&lt;head&gt;</span>
+    <span class="tg">&lt;meta</span> <span class="at">charset=</span><span class="st">"UTF-8"</span> <span class="tg">/&gt;</span>
+    <span class="tg">&lt;meta</span> <span class="at">name=</span><span class="st">"viewport"</span> <span class="at">content=</span><span class="st">"width=device-width, initial-scale=1.0"</span> <span class="tg">/&gt;</span>
+    <span class="tg">&lt;title&gt;</span>My Web Page<span class="tg">&lt;/title&gt;</span>
+  <span class="tg">&lt;/head&gt;</span>
+
+  <span class="tg">&lt;body&gt;</span>
+    <span class="tg">&lt;h1&gt;</span>Hello, World!<span class="tg">&lt;/h1&gt;</span>
+    <span class="tg">&lt;p&gt;</span>This is a paragraph of text.<span class="tg">&lt;/p&gt;</span>
+  <span class="tg">&lt;/body&gt;</span>
+
+<span class="tg">&lt;/html&gt;</span></pre></div>
+
+  <p>
+    The <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">&lt;head&gt;</code> contains metadata — information <em>about</em> the page, like its title and character encoding.
+    The <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">&lt;body&gt;</code> contains everything the user actually sees.
+  </p>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; margin: 1.5rem 0 0.5rem; color: var(--text);">Semantic HTML</h3>
+
+  <p>
+    One of the most important things I have learned about HTML is the idea of <strong>semantic elements</strong>. Rather than wrapping everything in
+    generic <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">&lt;div&gt;</code> tags, HTML5 introduced elements like
+    <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">&lt;header&gt;</code>,
+    <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">&lt;nav&gt;</code>,
+    <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">&lt;main&gt;</code>,
+    <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">&lt;article&gt;</code>, and
+    <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">&lt;footer&gt;</code>.
+    These tell the browser — and screen readers — what each part of the page is <em>for</em>, not just how it looks.
+    This matters for accessibility and for SEO.
+  </p>
+
+  <div class="code-block"><pre><span class="tg">&lt;header&gt;</span>
+  <span class="tg">&lt;nav&gt;</span>
+    <span class="tg">&lt;a</span> <span class="at">href=</span><span class="st">"/"</span><span class="tg">&gt;</span>Home<span class="tg">&lt;/a&gt;</span>
+    <span class="tg">&lt;a</span> <span class="at">href=</span><span class="st">"/about"</span><span class="tg">&gt;</span>About<span class="tg">&lt;/a&gt;</span>
+  <span class="tg">&lt;/nav&gt;</span>
+<span class="tg">&lt;/header&gt;</span>
+
+<span class="tg">&lt;main&gt;</span>
+  <span class="tg">&lt;article&gt;</span>
+    <span class="tg">&lt;h1&gt;</span>Article Title<span class="tg">&lt;/h1&gt;</span>
+    <span class="tg">&lt;p&gt;</span>Content goes here...<span class="tg">&lt;/p&gt;</span>
+  <span class="tg">&lt;/article&gt;</span>
+<span class="tg">&lt;/main&gt;</span>
+
+<span class="tg">&lt;footer&gt;</span>
+  <span class="tg">&lt;p&gt;</span>&copy; 2024 My Website<span class="tg">&lt;/p&gt;</span>
+<span class="tg">&lt;/footer&gt;</span></pre></div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; margin: 1.5rem 0 0.5rem; color: var(--text);">Live Example — A Simple HTML Form</h3>
+
+  <p>
+    Below is a working HTML form demonstrating several important elements: input types, labels, fieldsets, and a submit button.
+    Forms are one of the main ways users interact with web applications.
+  </p>
+
+  <div class="demo-label">↓ live rendered output</div>
+  <div class="demo-box">
+    <form onsubmit="handleFormSubmit(event)" style="font-family:sans-serif; max-width:400px;">
+      <fieldset style="border:1px solid #ccc; border-radius:6px; padding:1rem; margin-bottom:1rem;">
+        <legend style="font-weight:600; padding:0 0.4rem; font-size:0.9rem;">Contact Details</legend>
+        <div style="margin-bottom:0.8rem;">
+          <label for="ex-name" style="display:block; font-size:0.85rem; margin-bottom:0.25rem;">Full Name</label>
+          <input id="ex-name" type="text" placeholder="Jane Smith" style="width:100%; padding:0.4rem 0.6rem; border:1px solid #ccc; border-radius:4px; font-size:0.9rem;" />
+        </div>
+        <div style="margin-bottom:0.8rem;">
+          <label for="ex-email" style="display:block; font-size:0.85rem; margin-bottom:0.25rem;">Email Address</label>
+          <input id="ex-email" type="email" placeholder="jane@example.com" style="width:100%; padding:0.4rem 0.6rem; border:1px solid #ccc; border-radius:4px; font-size:0.9rem;" />
+        </div>
+        <div style="margin-bottom:0.8rem;">
+          <label for="ex-role" style="display:block; font-size:0.85rem; margin-bottom:0.25rem;">Role</label>
+          <select id="ex-role" style="width:100%; padding:0.4rem 0.6rem; border:1px solid #ccc; border-radius:4px; font-size:0.9rem;">
+            <option value="">Select a role…</option>
+            <option>Front End Developer</option>
+            <option>Back End Developer</option>
+            <option>Full Stack Developer</option>
+          </select>
+        </div>
+      </fieldset>
+      <button type="submit" style="background:#f0a500; border:none; color:#fff; padding:0.5rem 1.2rem; border-radius:4px; font-weight:600; cursor:pointer;">Submit</button>
+      <p id="form-msg" style="margin-top:0.6rem; font-size:0.85rem; color:green; display:none;">✓ Form submitted successfully!</p>
+    </form>
+  </div>
+
+  <p>
+    The key things to notice here are that the <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">&lt;label&gt;</code> element is linked to each input via the <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">for</code> attribute,
+    the input types (<code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">text</code>, <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">email</code>) give the browser hints about what kind of data to expect,
+    and the fieldset groups related inputs together in a meaningful way.
+  </p>
+</section>
+
+<!--SECTION 3 — CSS-->
+<section id="css" class="fade-up">
+  <p class="section-num">// 03</p>
+  <h2>CSS</h2>
+
+  <p>
+    CSS — Cascading Style Sheets — is what transforms a plain HTML document into something that actually looks designed. It controls everything visual:
+    colours, fonts, spacing, layout, animations, and how a page responds to different screen sizes.
+  </p>
+
+  <p>
+    The word <strong>cascading</strong> is the important bit. CSS rules flow downward through the document, and more specific selectors override
+    more general ones. Understanding specificity took me a while — I initially found it confusing when a style I had written
+    wasn't applying, and it usually turned out to be a specificity issue.
+  </p>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; margin: 1.5rem 0 0.5rem; color: var(--text);">How CSS is Applied</h3>
+
+  <div class="code-block"><pre><span class="cm">/* Targeting an element directly */</span>
+<span class="kw">h1</span> {
+  <span class="at">color</span>: <span class="st">#1a1a1a</span>;
+  <span class="at">font-size</span>: <span class="st">2rem</span>;
+}
+
+<span class="cm">/* Targeting a class */</span>
+<span class="kw">.card</span> {
+  <span class="at">background</span>: <span class="st">#ffffff</span>;
+  <span class="at">border-radius</span>: <span class="st">8px</span>;
+  <span class="at">padding</span>: <span class="st">1.5rem</span>;
+  <span class="at">box-shadow</span>: <span class="st">0 2px 12px rgba(0,0,0,0.08)</span>;
+}
+
+<span class="cm">/* Pseudo-class — applies only on hover */</span>
+<span class="kw">.card:hover</span> {
+  <span class="at">transform</span>: <span class="st">translateY(-4px)</span>;
+  <span class="at">transition</span>: <span class="st">transform 0.2s ease</span>;
+}</pre></div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; margin: 1.5rem 0 0.5rem; color: var(--text);">Key Concepts — Interactive Demos</h3>
+
+  <p>The demos below illustrate four important CSS concepts I have studied:</p>
+
+  <div class="css-examples">
+    <!-- 1: Box Model -->
+    <div class="css-card">
+      <p class="css-card-title">1 — The Box Model</p>
+      <div class="box-model-demo">
+        content<br />
+        <span style="font-size:0.6rem; opacity:0.6;">padding</span>
+      </div>
+      <p style="font-size:0.78rem; color:var(--muted); margin-top:0.6rem;">
+        Every element is a box with <strong style="color:var(--text);">content</strong>, <strong style="color:var(--text);">padding</strong>, <strong style="color:var(--text);">border</strong>, and <strong style="color:var(--text);">margin</strong>.
+        The dashed line shows the border; the outer green outline represents the margin area.
+      </p>
+    </div>
+
+    <!-- 2: Flexbox -->
+    <div class="css-card">
+      <p class="css-card-title">2 — Flexbox Layout</p>
+      <div class="flex-demo">
+        <div class="flex-item">flex:2</div>
+        <div class="flex-item">flex:1</div>
+        <div class="flex-item">flex:1.5</div>
+      </div>
+      <p style="font-size:0.78rem; color:var(--muted); margin-top:0.6rem;">
+        Flexbox lets items share space proportionally using the <strong style="color:var(--text);">flex</strong> property.
+        The first item is twice as wide as the second.
+      </p>
+    </div>
+
+    <!-- 3: Transitions -->
+    <div class="css-card">
+      <p class="css-card-title">3 — Transitions &amp; Hover States</p>
+      <button class="transition-demo-btn">Hover over me</button>
+      <p style="font-size:0.78rem; color:var(--muted); margin-top:0.6rem;">
+        The <code style="font-family:'JetBrains Mono',monospace; font-size:0.72rem;">transition</code> property animates changes in CSS values smoothly, rather than jumping instantly.
+      </p>
+    </div>
+
+    <!-- 4: Grid -->
+    <div class="css-card">
+      <p class="css-card-title">4 — CSS Grid</p>
+      <div class="grid-demo">
+        <div class="grid-cell span2">col span 2</div>
+        <div class="grid-cell">col 3</div>
+        <div class="grid-cell">col 1</div>
+        <div class="grid-cell">col 2</div>
+        <div class="grid-cell">col 3</div>
+      </div>
+      <p style="font-size:0.78rem; color:var(--muted); margin-top:0.6rem;">
+        Grid allows precise two-dimensional layouts. Items can span multiple columns with <code style="font-family:'JetBrains Mono',monospace; font-size:0.72rem;">grid-column: span 2</code>.
+      </p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; margin: 1.5rem 0 0.5rem; color: var(--text);">Responsive Design with Media Queries</h3>
+
+  <p>
+    One of the most practical things CSS can do is make a layout adapt to different screen sizes using <strong>media queries</strong>.
+    This is essential for modern web development because users access sites on everything from a small phone screen to a widescreen monitor.
+  </p>
+
+  <div class="code-block"><pre><span class="cm">/* Default styles for small screens (mobile-first) */</span>
+<span class="kw">.container</span> {
+  <span class="at">display</span>: <span class="st">flex</span>;
+  <span class="at">flex-direction</span>: <span class="st">column</span>;
+  <span class="at">gap</span>: <span class="st">1rem</span>;
+}
+
+<span class="cm">/* At 768px and above, switch to a horizontal layout */</span>
+<span class="kw">@media (min-width: 768px)</span> {
+  <span class="kw">.container</span> {
+    <span class="at">flex-direction</span>: <span class="st">row</span>;
+  }
+}</pre></div>
+
+  <p>
+    I have found the mobile-first approach makes the most sense once you get used to it — you write the simplest styles first
+    (for small screens) and then layer complexity on for larger ones. This also tends to produce leaner CSS overall.
+  </p>
+</section>
+
+<!--SECTION 4 — BOOTSTRAP-->
+<section id="bootstrap" class="fade-up">
+  <p class="section-num">// 04</p>
+  <h2>Bootstrap Framework</h2>
+
+  <p>
+    Bootstrap is an open-source CSS framework that provides a collection of pre-built components and a responsive grid system.
+    Rather than writing layout and component styles from scratch every time, Bootstrap lets you apply ready-made classes to your HTML.
+  </p>
+
+  <p>
+    The core of Bootstrap's layout system is its <strong>12-column grid</strong>. You define rows and then specify how many columns each element should
+    span at different breakpoints. The breakpoints (<code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">sm</code>, <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">md</code>, <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">lg</code>, <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">xl</code>) correspond to screen widths,
+    making it straightforward to create responsive layouts without writing any custom media queries.
+  </p>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; margin: 1.5rem 0 0.5rem; color: var(--text);">The Grid System</h3>
+
+  <div class="code-block"><pre><span class="cm">&lt;!-- A three-column layout that stacks on mobile --&gt;</span>
+<span class="tg">&lt;div</span> <span class="at">class=</span><span class="st">"container"</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;div</span> <span class="at">class=</span><span class="st">"row g-3"</span><span class="tg">&gt;</span>
+    <span class="tg">&lt;div</span> <span class="at">class=</span><span class="st">"col-12 col-md-4"</span><span class="tg">&gt;</span>Column 1<span class="tg">&lt;/div&gt;</span>
+    <span class="tg">&lt;div</span> <span class="at">class=</span><span class="st">"col-12 col-md-4"</span><span class="tg">&gt;</span>Column 2<span class="tg">&lt;/div&gt;</span>
+    <span class="tg">&lt;div</span> <span class="at">class=</span><span class="st">"col-12 col-md-4"</span><span class="tg">&gt;</span>Column 3<span class="tg">&lt;/div&gt;</span>
+  <span class="tg">&lt;/div&gt;</span>
+<span class="tg">&lt;/div&gt;</span></pre></div>
+
+  <p>
+    Notice <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">col-12 col-md-4</code> — on small screens each column takes up all 12 columns (full width),
+    and from the <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">md</code> breakpoint upwards it takes up 4 (one third of 12). That is responsive layout with a single class.
+  </p>
+
+  <div class="demo-label">↓ live rendered output (Bootstrap loaded via CDN)</div>
+  <div class="demo-box" style="padding:1rem;">
+
+    <!-- Bootstrap Grid Demo -->
+    <div class="container-fluid mb-4">
+      <p style="font-size:0.8rem; color:#888; font-family:monospace; margin-bottom:0.5rem;">Grid: 12-column responsive layout</p>
+      <div class="row g-2">
+        <div class="col-12 col-md-8"><div class="bg-primary text-white p-2 rounded text-center" style="font-size:0.82rem;">col-md-8</div></div>
+        <div class="col-12 col-md-4"><div class="bg-secondary text-white p-2 rounded text-center" style="font-size:0.82rem;">col-md-4</div></div>
+      </div>
+      <div class="row g-2 mt-1">
+        <div class="col-4"><div class="bg-info text-white p-2 rounded text-center" style="font-size:0.82rem;">col-4</div></div>
+        <div class="col-4"><div class="bg-info text-white p-2 rounded text-center" style="font-size:0.82rem;">col-4</div></div>
+        <div class="col-4"><div class="bg-info text-white p-2 rounded text-center" style="font-size:0.82rem;">col-4</div></div>
+      </div>
+    </div>
+
+    <!-- Bootstrap Components Demo -->
+    <p style="font-size:0.8rem; color:#888; font-family:monospace; margin-bottom:0.5rem;">Components: buttons, badges, alerts</p>
+
+    <div class="mb-3">
+      <button class="btn btn-primary me-2 mb-2">Primary</button>
+      <button class="btn btn-secondary me-2 mb-2">Secondary</button>
+      <button class="btn btn-success me-2 mb-2">Success</button>
+      <button class="btn btn-outline-danger me-2 mb-2">Outline Danger</button>
+      <span class="badge bg-warning text-dark me-2">Warning Badge</span>
+      <span class="badge bg-dark">Dark Badge</span>
+    </div>
+
+    <div class="alert alert-info" role="alert">
+      <strong>Info alert:</strong> Bootstrap provides these pre-styled alert boxes out of the box — no custom CSS needed.
+    </div>
+
+    <!-- Bootstrap Card -->
+    <p style="font-size:0.8rem; color:#888; font-family:monospace; margin-bottom:0.5rem;">Card component</p>
+    <div class="card" style="max-width:320px;">
+      <div class="card-body">
+        <h5 class="card-title">Bootstrap Card</h5>
+        <p class="card-text" style="font-size:0.85rem;">Cards are a flexible content container with header, body, and footer options.</p>
+        <a href="#" class="btn btn-sm btn-primary">Learn more</a>
+      </div>
+    </div>
+
+  </div>
+
+  <p>
+    I have found Bootstrap particularly useful for getting something usable on screen quickly.
+    The trade-off is that Bootstrap sites can end up looking very similar to each other if you do not customise the default styles —
+    which is why understanding CSS from scratch first is important. You need to know what Bootstrap is doing under the hood.
+  </p>
+
+  <p>
+    Bootstrap also includes a set of utility classes for spacing, typography alignment, display properties, and colour — things like
+    <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">mt-3</code> (margin-top: 1rem) or <code style="font-family:'JetBrains Mono',monospace; background:var(--code-bg); padding:0.1rem 0.4rem; border-radius:3px; font-size:0.82rem;">text-center</code>. These reduce the need to write small one-line CSS rules repeatedly.
+  </p>
+</section>
+
+<!--SECTION 5 — JAVASCRIPT-->
+<section id="javascript" class="fade-up">
+  <p class="section-num">// 05</p>
+  <h2>JavaScript</h2>
+
+  <p>
+    JavaScript is the only programming language that runs natively in the browser. Where HTML defines structure and CSS defines appearance,
+    JavaScript adds <strong>behaviour</strong> — the ability to respond to user interactions, manipulate the DOM, fetch data from servers,
+    and create dynamic experiences without reloading the page.
+  </p>
+
+  <p>
+    Unlike HTML and CSS, JavaScript is a proper programming language with variables, functions, loops, conditionals, and data structures.
+    It can feel like a big jump at first, but once the core concepts click the rest starts to follow.
+  </p>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; margin: 1.5rem 0 0.5rem; color: var(--text);">Fundamentals — Variables, Functions, Events</h3>
+
+  <div class="code-block"><pre><span class="cm">// Variables (prefer let and const over var)</span>
+<span class="kw">const</span> userName = <span class="st">"Alex"</span>;
+<span class="kw">let</span> clickCount = <span class="st">0</span>;
+
+<span class="cm">// A simple function</span>
+<span class="kw">function</span> greet(name) {
+  <span class="kw">return</span> <span class="st">`Hello, ${name}!`</span>;
+}
+
+<span class="cm">// Selecting a DOM element and listening for events</span>
+<span class="kw">const</span> btn = document.<span class="at">querySelector</span>(<span class="st">"#myButton"</span>);
+
+btn.<span class="at">addEventListener</span>(<span class="st">"click"</span>, () => {
+  clickCount++;
+  console.<span class="at">log</span>(<span class="st">`Clicked ${clickCount} times`</span>);
+});</pre></div>
+
+  <p>
+    The key concept above is the <strong>event listener</strong> — JavaScript waits for something to happen (a click, a keypress, a form submission)
+    and then executes a function in response. This is called <em>event-driven programming</em> and it's fundamental to how interactive web pages work.
+  </p>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; margin: 1.5rem 0 0.5rem; color: var(--text);">Interactive Demo 1 — Click Counter</h3>
+  <p>This demonstrates variables, DOM manipulation, and event listeners working together:</p>
+
+  <div class="js-demo-area">
+    <h4>Click Counter</h4>
+    <div class="counter-wrap">
+      <button class="counter-btn" id="btn-dec">−</button>
+      <div id="counter-display">0</div>
+      <button class="counter-btn" id="btn-inc">+</button>
+      <button class="counter-btn" id="btn-reset" title="Reset" style="font-size:0.7rem; width:auto; padding:0 0.7rem; border-radius:4px;">reset</button>
+    </div>
+    <p style="font-size:0.8rem; color:var(--muted); margin-top:1rem;">
+      Each button adds or subtracts 1 from a variable stored in JavaScript. The DOM is then updated to reflect the new value.
+      The counter turns red below 0 and green above 0.
+    </p>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; margin: 1.5rem 0 0.5rem; color: var(--text);">DOM Manipulation</h3>
+
+  <p>
+    The DOM (Document Object Model) is what JavaScript uses to interact with an HTML page. It represents the page as a tree of objects,
+    and JavaScript can read or change any part of it in real time.
+  </p>
+
+  <div class="code-block"><pre><span class="cm">// Get a reference to an element</span>
+<span class="kw">const</span> heading = document.<span class="at">getElementById</span>(<span class="st">"main-heading"</span>);
+
+<span class="cm">// Change its text content</span>
+heading.<span class="at">textContent</span> = <span class="st">"Updated by JavaScript!"</span>;
+
+<span class="cm">// Create a new element and add it to the page</span>
+<span class="kw">const</span> newPara = document.<span class="at">createElement</span>(<span class="st">"p"</span>);
+newPara.<span class="at">textContent</span> = <span class="st">"This paragraph was created dynamically."</span>;
+document.<span class="at">body</span>.<span class="at">appendChild</span>(newPara);
+
+<span class="cm">// Toggle a class</span>
+heading.<span class="at">classList</span>.<span class="at">toggle</span>(<span class="st">"active"</span>);</pre></div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; margin: 1.5rem 0 0.5rem; color: var(--text);">Interactive Demo 2 — To-Do List</h3>
+  <p>
+    This second demo is more complex — it combines array manipulation, dynamic DOM creation, event delegation, and CSS class toggling
+    to build a functional (if simple) to-do list:
+  </p>
+
+  <div class="js-demo-area">
+    <h4>To-Do List</h4>
+    <div class="todo-input-row">
+      <input id="todo-input" type="text" placeholder="Add a task and press Enter…" />
+      <button id="todo-add-btn">Add</button>
+    </div>
+    <ul id="todo-list"></ul>
+    <p style="font-size:0.8rem; color:var(--muted); margin-top:1rem;">
+      Click a task to mark it done. Use the ✕ to remove it. Tasks are stored in an array; the list is re-rendered on each change.
+    </p>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; margin: 1.5rem 0 0.5rem; color: var(--text);">Colour Picker Demo</h3>
+  <p>A quick demonstration of reading an input value and applying it to the DOM in real time:</p>
+
+  <div class="js-demo-area">
+    <h4>Live Colour Preview</h4>
+    <div class="colour-picker-demo">
+      <input type="color" id="colour-input" value="#f0a500" style="width:50px; height:40px; cursor:pointer; border:none; background:none;" />
+      <span id="colour-output" style="font-family:'JetBrains Mono',monospace; font-size:1rem; color:var(--accent);">#f0a500</span>
+      <div id="colour-swatch" style="width:100px; height:40px; background:#f0a500; border-radius:5px; border:1px solid var(--border);"></div>
+    </div>
+    <p style="font-size:0.8rem; color:var(--muted); margin-top:0.8rem;">
+      An <code style="font-family:'JetBrains Mono',monospace; font-size:0.75rem;">input</code> event listener reads the picker value and updates the swatch and label on every change.
+    </p>
+  </div>
+
+  <p style="margin-top:1.5rem;">
+    JavaScript is by far the most complex of the three front-end technologies covered in this module, but it is also the most powerful.
+    Understanding how it interacts with the DOM, and how to write clean, readable functions, is something I am continuing to develop.
+    The two demos above represent concepts I genuinely understand and can build on.
+  </p>
+</section>
+
+<!--FOOTER-->
+<footer>
+  <p>CET138 Full Stack Development · Assignment 1 · ePortfolio</p>
+  <p>Built with <span style="color:var(--accent);">HTML · CSS · Bootstrap · JavaScript</span></p>
+</footer>
+
+<!--SCRIPTS-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  /* FORM SUBMIT */
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    const msg = document.getElementById('form-msg');
+    msg.style.display = 'block';
+    setTimeout(() => { msg.style.display = 'none'; }, 2500);
+  }
+
+  /* COUNTER */
+  let count = 0;
+  const display = document.getElementById('counter-display');
+
+  function updateCounter() {
+    display.textContent = count;
+    display.style.color = count < 0 ? '#e05a00' : count > 0 ? '#a8d48a' : 'var(--accent)';
+    display.style.transform = 'scale(1.2)';
+    setTimeout(() => { display.style.transform = 'scale(1)'; }, 120);
+  }
+
+  document.getElementById('btn-inc').addEventListener('click', () => { count++; updateCounter(); });
+  document.getElementById('btn-dec').addEventListener('click', () => { count--; updateCounter(); });
+  document.getElementById('btn-reset').addEventListener('click', () => { count = 0; updateCounter(); });
+
+  /* TO-DO LIST */
+  let todos = [];
+
+  function renderTodos() {
+    const list = document.getElementById('todo-list');
+    list.innerHTML = '';
+    todos.forEach((todo, i) => {
+      const li = document.createElement('li');
+      if (todo.done) li.classList.add('done');
+
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.checked = todo.done;
+      cb.addEventListener('change', () => { todos[i].done = cb.checked; renderTodos(); });
+
+      const span = document.createElement('span');
+      span.textContent = todo.text;
+
+      const del = document.createElement('button');
+      del.className = 'del-btn';
+      del.textContent = '✕';
+      del.addEventListener('click', () => { todos.splice(i, 1); renderTodos(); });
+
+      li.appendChild(cb);
+      li.appendChild(span);
+      li.appendChild(del);
+      list.appendChild(li);
+    });
+  }
+
+  function addTodo() {
+    const input = document.getElementById('todo-input');
+    const text = input.value.trim();
+    if (!text) return;
+    todos.push({ text, done: false });
+    input.value = '';
+    renderTodos();
+  }
+
+  document.getElementById('todo-add-btn').addEventListener('click', addTodo);
+  document.getElementById('todo-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') addTodo();
+  });
+
+  // Seed with a sample item
+  todos.push({ text: 'Study JavaScript DOM manipulation', done: true });
+  todos.push({ text: 'Build a working Bootstrap layout', done: false });
+  renderTodos();
+
+  /* COLOUR PICKER */
+  const colourInput = document.getElementById('colour-input');
+  const colourOutput = document.getElementById('colour-output');
+  const colourSwatch = document.getElementById('colour-swatch');
+
+  colourInput.addEventListener('input', () => {
+    const val = colourInput.value;
+    colourOutput.textContent = val;
+    colourOutput.style.color = val;
+    colourSwatch.style.background = val;
+  });
+
+  /*SCROLL FADE-IN*/
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
